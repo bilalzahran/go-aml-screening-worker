@@ -1,0 +1,13 @@
+log_level: info
+
+rabbitmq:
+  uri: "amqp://guest:guest@localhost:5672/"
+  queue: "events"
+  exchange: "events"
+  routing_key: "event.#"
+  prefetch_count: 10
+
+mongodb:
+  uri: "mongodb://localhost:27017"
+  database: "cdaq"
+  collection: "events"
