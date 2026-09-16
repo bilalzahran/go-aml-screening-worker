@@ -34,12 +34,13 @@ func (h *EventHandler) Handle(ctx context.Context, body []byte) error {
 		return fmt.Errorf("unmarshaling event: %w", err)
 	}
 
-	h.eventService.Process(ctx, &event)
-
 	handler, ok := h.handlers[event.Type]
 	if !ok {
 		return fmt.Errorf("no handler for event type: %s", event.Type)
 	}
+
+	// Process event - save to db
+	h.eventService.Process(ctx, &event)
 
 	return handler.Handle(ctx, &event)
 }

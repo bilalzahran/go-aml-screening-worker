@@ -1,15 +1,15 @@
 package model
 
 import (
-	"encoding/json"
 	"time"
 )
 
 type Event struct {
-	ID        string          `json:"id"         bson:"_id"`
-	Type      string          `json:"type"       bson:"type"`
-	Source    string          `json:"source"     bson:"source"`
-	Timestamp time.Time       `json:"timestamp"  bson:"timestamp"`
-	Payload   json.RawMessage `json:"payload"    bson:"payload"`
-	CreatedAt time.Time       `json:"created_at" bson:"created_at"`
+	Type             string           `json:"event_type" bson:"event_type"`
+	ID               string           `json:"id" bson:"id"`
+	TenantID         *string          `json:"tenant_id" bson:"tenant_id"`
+	CaseID           string           `json:"case_id" bson:"case_id"`
+	WorldCheck       []map[string]any `json:"world_check" bson:"world_check"`
+	AIRecommendation []map[string]any `json:"ai_recommendation" bson:"ai_recommendation"`
+	CreatedAt        time.Time
 }

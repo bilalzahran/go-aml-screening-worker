@@ -54,7 +54,7 @@ func main() {
 	jobService := service.NewJobService(jobRepository, childJobRepository, logger)
 
 	handlers := map[string]handler.EventTypeHandler{
-		"ogs": usecase.NewOgsUseCase(logger, jobService),
+		"wc.ogs": usecase.NewOgsUseCase(logger, jobService),
 	}
 	eventHandler := handler.NewEventHandler(handlers, eventService, logger)
 	consumer := rabbitmq.NewConsumer(cfg.RabbitMQ, eventHandler, logger)

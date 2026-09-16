@@ -6,7 +6,6 @@ import (
 	"io"
 	"log/slog"
 	"testing"
-	"time"
 
 	"cdaq-event-worker/internal/model"
 	"cdaq-event-worker/internal/service"
@@ -35,10 +34,8 @@ func TestProcess_ValidEvent(t *testing.T) {
 	svc := newTestService(repo)
 
 	event := &model.Event{
-		ID:        "evt-1",
-		Type:      "user.created",
-		Source:    "auth-service",
-		Timestamp: time.Now().UTC(),
+		ID:   "evt-1",
+		Type: "user.created",
 	}
 
 	err := svc.Process(context.Background(), event)
@@ -60,8 +57,7 @@ func TestProcess_EmptyID(t *testing.T) {
 	svc := newTestService(repo)
 
 	event := &model.Event{
-		Type:   "user.created",
-		Source: "auth-service",
+		Type: "user.created",
 	}
 
 	err := svc.Process(context.Background(), event)
@@ -79,8 +75,7 @@ func TestProcess_EmptyType(t *testing.T) {
 	svc := newTestService(repo)
 
 	event := &model.Event{
-		ID:     "evt-1",
-		Source: "auth-service",
+		ID: "evt-1",
 	}
 
 	err := svc.Process(context.Background(), event)
@@ -103,10 +98,8 @@ func TestProcess_RepoError(t *testing.T) {
 	svc := newTestService(repo)
 
 	event := &model.Event{
-		ID:        "evt-1",
-		Type:      "user.created",
-		Source:    "auth-service",
-		Timestamp: time.Now().UTC(),
+		ID:   "evt-1",
+		Type: "user.created",
 	}
 
 	err := svc.Process(context.Background(), event)

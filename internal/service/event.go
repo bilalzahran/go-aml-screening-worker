@@ -39,7 +39,6 @@ func (s *EventService) Process(ctx context.Context, event *model.Event) error {
 	s.logger.Info("event processed",
 		"event_id", event.ID,
 		"event_type", event.Type,
-		"source", event.Source,
 	)
 	return nil
 }
