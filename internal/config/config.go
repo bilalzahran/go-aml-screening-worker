@@ -23,9 +23,11 @@ type RabbitMQConfig struct {
 }
 
 type MongoDBConfig struct {
-	URI        string `mapstructure:"uri"`
-	Database   string `mapstructure:"database"`
-	Collection string `mapstructure:"collection"`
+	URI                string `mapstructure:"uri"`
+	Database           string `mapstructure:"database"`
+	Collection         string `mapstructure:"collection"`
+	JobCollection      string `mapstructure:"job_collection"`
+	ChildJobCollection string `mapstructure:"child_job_collection"`
 }
 
 func Load() (*Config, error) {
@@ -38,8 +40,10 @@ func Load() (*Config, error) {
 	v.SetDefault("rabbitmq.routing_key", "event.#")
 	v.SetDefault("rabbitmq.prefetch_count", 10)
 	v.SetDefault("mongodb.uri", "mongodb://localhost:27017")
-	v.SetDefault("mongodb.database", "cdaq")
+	v.SetDefault("mongodb.database", "cdaq-event")
 	v.SetDefault("mongodb.collection", "events")
+	v.SetDefault("mongodb.job_collection", "jobs")
+	v.SetDefault("mongodb.child_job_collection", "child_jobs")
 
 	v.SetConfigName("config")
 	v.SetConfigType("yaml")

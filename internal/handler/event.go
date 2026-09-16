@@ -10,15 +10,21 @@ import (
 	"cdaq-event-worker/internal/service"
 )
 
-type EventHandler struct {
-	service *service.EventService
-	logger  *slog.Logger
+type EventTypeHandler interface {
+	Handle(ctx context.Context, event *model.Event) error
 }
 
-func NewEventHandler(svc *service.EventService, logger *slog.Logger) *EventHandler {
+type EventHandler struct {
+	handlers     map[string]EventTypeHandler
+	eventService *service.EventService
+	logger       *slog.Logger
+}
+
+func NewEventHandler(handlers map[string]EventTypeHandler, eventService *service.EventService, logger *slog.Logger) *EventHandler {
 	return &EventHandler{
-		service: svc,
-		logger:  logger.With("component", "event_handler"),
+		handlers:     handlers,
+		eventService: eventService,
+		logger:       logger.With("component", "event_handler"),
 	}
 }
 
@@ -28,9 +34,12 @@ func (h *EventHandler) Handle(ctx context.Context, body []byte) error {
 		return fmt.Errorf("unmarshaling event: %w", err)
 	}
 
-	if err := h.service.Process(ctx, &event); err != nil {
-		return fmt.Errorf("processing event: %w", err)
+	h.eventService.Process(ctx, &event)
+
+	handler, ok := h.handlers[event.Type]
+	if !ok {
+		return fmt.Errorf("no handler for event type: %s", event.Type)
 	}
 
-	return nil
+	return handler.Handle(ctx, &event)
 }

@@ -19,9 +19,9 @@ type ChildJobRepository struct {
 	logger     *slog.Logger
 }
 
-func NewChildJobRepository(collection *mongo.Collection, logger *slog.Logger) *ChildJobRepository {
+func NewChildJobRepository(client *mongo.Client, database, collection string, logger *slog.Logger) *ChildJobRepository {
 	return &ChildJobRepository{
-		collection: collection,
+		collection: client.Database(database).Collection(collection),
 		logger:     logger,
 	}
 }

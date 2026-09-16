@@ -17,6 +17,7 @@ import (
 	mongorepo "cdaq-event-worker/internal/repository/mongo"
 	"cdaq-event-worker/internal/service"
 	"cdaq-event-worker/internal/transport/rabbitmq"
+	"cdaq-event-worker/internal/usecase"
 )
 
 var Version = "dev"
@@ -46,8 +47,16 @@ func main() {
 
 	// Wire dependencies
 	eventRepo := mongorepo.NewEventRepository(mongoClient, cfg.MongoDB.Database, cfg.MongoDB.Collection, logger)
-	eventSvc := service.NewEventService(eventRepo, logger)
-	eventHandler := handler.NewEventHandler(eventSvc, logger)
+	eventService := service.NewEventService(eventRepo, logger)
+
+	jobRepository := mongorepo.NewJobRepository(mongoClient, cfg.MongoDB.Database, cfg.MongoDB.JobCollection, logger)
+	childJobRepository := mongorepo.NewChildJobRepository(mongoClient, cfg.MongoDB.Database, cfg.MongoDB.ChildJobCollection, logger)
+	jobService := service.NewJobService(jobRepository, childJobRepository, logger)
+
+	handlers := map[string]handler.EventTypeHandler{
+		"ogs": usecase.NewOgsUseCase(logger, jobService),
+	}
+	eventHandler := handler.NewEventHandler(handlers, eventService, logger)
 	consumer := rabbitmq.NewConsumer(cfg.RabbitMQ, eventHandler, logger)
 
 	// Graceful shutdown
