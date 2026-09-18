@@ -1,0 +1,606 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "wc.ogs",
+    "type": "object",
+    "properties": {
+        "tenant_id": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "case_id": {
+            "type": "string"
+        },
+        "world_check": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "result_id": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "reference_id": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "matched_term": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "primary_name": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "provider_type": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "resolution_status": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "resolution_reason": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "risk_level": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "resolution_remark": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "review_comment": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "review_required": {
+                        "type": [
+                            "string",
+                            "null",
+                            "boolean"
+                        ]
+                    },
+                    "review_required_date": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "review_date": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "last_updated": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "pep_status": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "comparison_data": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "typeId": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "name": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "submittedValue": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "matchedValue": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "typeId",
+                                "name",
+                                "submittedValue",
+                                "matchedValue"
+                            ]
+                        }
+                    },
+                    "aliases": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "orginal_script": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "submitted_data": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "matched_data": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "language": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "orginal_script",
+                                "submitted_data",
+                                "matched_data",
+                                "language"
+                            ]
+                        }
+                    },
+                    "key_data": {
+                        "type": "object",
+                        "properties": {
+                            "gender": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "category": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "sources": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "abbreviation": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "name": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "description": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "abbreviation",
+                                        "name",
+                                        "description"
+                                    ]
+                                }
+                            },
+                            "previous_roles": {
+                                "type": "array",
+                                "items": {}
+                            },
+                            "addresses": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "city": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "country": {
+                                            "type": "object",
+                                            "properties": {
+                                                "code": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "name": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "code",
+                                                "name"
+                                            ]
+                                        },
+                                        "postCode": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "region": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "street": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "city",
+                                        "country",
+                                        "region"
+                                    ]
+                                }
+                            },
+                            "identity_documents": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "country": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "document_name": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "type": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "number": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "expiry_date": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "issue_date": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "country",
+                                        "document_name",
+                                        "type",
+                                        "number"
+                                    ]
+                                }
+                            },
+                            "location_details": {
+                                "type": "object",
+                                "properties": {
+                                    "location": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "required": [
+                            "category",
+                            "sources",
+                            "previous_roles",
+                            "addresses",
+                            "identity_documents",
+                            "location_details"
+                        ]
+                    },
+                    "further_information": {
+                        "type": "object",
+                        "properties": {
+                            "details": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "detailType": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "text": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "title": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "detailType",
+                                        "text",
+                                        "title"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "details"
+                        ]
+                    },
+                    "keywords": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "abbreviation": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "name": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "description": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "abbreviation",
+                                "name",
+                                "description"
+                            ]
+                        }
+                    },
+                    "sources": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ],
+                                    "format": "uri"
+                                },
+                                "caption": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "url"
+                            ]
+                        }
+                    },
+                    "connections_and_relationships": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "target_entity_id": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "type": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "name": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "entity_type": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "category": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "target_category": {
+                                    "type": "array",
+                                    "items": {}
+                                }
+                            },
+                            "required": [
+                                "target_entity_id",
+                                "type",
+                                "name",
+                                "entity_type",
+                                "category",
+                                "target_category"
+                            ]
+                        }
+                    },
+                    "role_details": {
+                        "type": "array",
+                        "items": {}
+                    },
+                    "update_category": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        }
+                    },
+                    "action_types": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "result_id",
+                    "reference_id",
+                    "matched_term",
+                    "primary_name",
+                    "provider_type",
+                    "last_updated",
+                    "comparison_data",
+                    "aliases",
+                    "key_data",
+                    "further_information",
+                    "keywords",
+                    "sources",
+                    "update_category",
+                    "categories"
+                ]
+            }
+        },
+        "ai_recommendation": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "same_company": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "confidence_level": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "reason": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    }
+                },
+                "required": [
+                    "id",
+                    "confidence_level",
+                    "reason"
+                ]
+            }
+        }
+    },
+    "required": [
+        "tenant_id",
+        "case_id",
+        "world_check",
+        "ai_recommendation"
+    ]
+}
