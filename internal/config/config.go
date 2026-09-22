@@ -23,11 +23,12 @@ type RabbitMQConfig struct {
 }
 
 type MongoDBConfig struct {
-	URI                string `mapstructure:"uri"`
-	Database           string `mapstructure:"database"`
-	Collection         string `mapstructure:"collection"`
-	JobCollection      string `mapstructure:"job_collection"`
-	ChildJobCollection string `mapstructure:"child_job_collection"`
+	URI                        string `mapstructure:"uri"`
+	Database                   string `mapstructure:"database"`
+	Collection                 string `mapstructure:"collection"`
+	JobCollection              string `mapstructure:"job_collection"`
+	ChildJobCollection         string `mapstructure:"child_job_collection"`
+	ScreeningWcResultCollection string `mapstructure:"screening_wc_result_collection"`
 }
 
 func Load() (*Config, error) {
@@ -44,6 +45,7 @@ func Load() (*Config, error) {
 	v.SetDefault("mongodb.collection", "events")
 	v.SetDefault("mongodb.job_collection", "jobs")
 	v.SetDefault("mongodb.child_job_collection", "child_jobs")
+	v.SetDefault("mongodb.screening_wc_result_collection", "screening_wc_results")
 
 	v.SetConfigName("config")
 	v.SetConfigType("yaml")

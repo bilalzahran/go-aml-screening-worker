@@ -13,3 +13,4 @@ mongodb:
   collection: "events"
   job_collection: "jobs"
   child_job_collection: "child_jobs"
+  screening_wc_result_collection: "screening_wc_results"

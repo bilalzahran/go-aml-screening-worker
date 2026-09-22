@@ -53,8 +53,11 @@ func main() {
 	childJobRepository := mongorepo.NewChildJobRepository(mongoClient, cfg.MongoDB.Database, cfg.MongoDB.ChildJobCollection, logger)
 	jobService := service.NewJobService(jobRepository, childJobRepository, logger)
 
+	screeningWcResultRepository := mongorepo.NewScreeningWcResultRepository(mongoClient, cfg.MongoDB.Database, cfg.MongoDB.ScreeningWcResultCollection, logger)
+	screeningWcResultService := service.NewScreeningWcResultService(screeningWcResultRepository, logger)
+
 	handlers := map[string]handler.EventTypeHandler{
-		"wc.ogs": usecase.NewOgsUseCase(logger, jobService),
+		"wc.ogs": usecase.NewOgsUseCase(logger, jobService, screeningWcResultService),
 	}
 	eventHandler := handler.NewEventHandler(handlers, eventService, logger)
 	consumer := rabbitmq.NewConsumer(cfg.RabbitMQ, eventHandler, logger)

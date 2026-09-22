@@ -9,6 +9,8 @@ import (
 
 	"cdaq-event-worker/internal/model"
 	"cdaq-event-worker/internal/service"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 type mockEventRepository struct {
@@ -34,7 +36,7 @@ func TestProcess_ValidEvent(t *testing.T) {
 	svc := newTestService(repo)
 
 	event := &model.Event{
-		ID:   "evt-1",
+		ID:   bson.NewObjectID(),
 		Type: "user.created",
 	}
 
@@ -75,7 +77,7 @@ func TestProcess_EmptyType(t *testing.T) {
 	svc := newTestService(repo)
 
 	event := &model.Event{
-		ID: "evt-1",
+		ID: bson.NewObjectID(),
 	}
 
 	err := svc.Process(context.Background(), event)
@@ -98,7 +100,7 @@ func TestProcess_RepoError(t *testing.T) {
 	svc := newTestService(repo)
 
 	event := &model.Event{
-		ID:   "evt-1",
+		ID:   bson.NewObjectID(),
 		Type: "user.created",
 	}
 

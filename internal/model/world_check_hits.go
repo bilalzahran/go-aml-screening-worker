@@ -1,6 +1,22 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"github.com/go-viper/mapstructure/v2"
+)
+
+// MapToWorldCheckHits converts a map[string]any to WorldCheckHits
+func MapToWorldCheckHits(data map[string]any) (*WorldCheckHits, error) {
+	var result WorldCheckHits
+
+	err := mapstructure.Decode(data, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	return &result, nil
+}
 
 type WorldCheckHits struct {
 	RiskLevel                   interface{}        `json:"risk_level"`
@@ -30,6 +46,7 @@ type WorldCheckHits struct {
 	ResultID                    string             `json:"result_id"`
 	ReviewDate                  interface{}        `json:"review_date"`
 }
+
 
 type ComparisonData struct {
 	MatchedValue   string `json:"matchedValue"`
