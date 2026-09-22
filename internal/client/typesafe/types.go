@@ -2,7 +2,8 @@ package typesafe
 
 // Request represents the TypeSafe SystemOne API request
 type Request struct {
-	Context   map[string]any `json:"context"`
+	State     map[string]any `json:"state"`
+	Model     string         `json:"model"`
 	Questions map[string]any `json:"questions"`
 }
 

@@ -69,6 +69,10 @@ func Load() (*Config, error) {
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	v.AutomaticEnv()
 
+	// Explicitly bind critical env vars that come from outside the config file
+	v.BindEnv("aimodel.typesafe_api_key", "CDAQ_AIMODEL_TYPESAFE_API_KEY")
+	v.BindEnv("aimodel.base_url", "CDAQ_AIMODEL_BASE_URL")
+
 	var cfg Config
 	if err := v.Unmarshal(&cfg); err != nil {
 		return nil, fmt.Errorf("unmarshaling config: %w", err)

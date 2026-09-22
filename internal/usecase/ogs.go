@@ -55,12 +55,13 @@ func (o *OgsUseCase) processOneChild(ctx context.Context, hit *model.WorldCheckH
 	// Build ScreeningWcResult from WorldCheckHits
 	screeningWcResult := model.NewScreeningWcResultFromWorldCheckHits(hit)
 
-	// Build context for TypeSafe API
-	typesafeContext := buildTypesafeContext(hit, subject)
+	// Build state for TypeSafe API
+	typesafeState := buildTypesafeContext(hit, subject)
 
 	// Call TypeSafe for reasoning questions
 	reasoningResp, err := o.typesafeClient.Call(ctx, &typesafe.Request{
-		Context:   typesafeContext,
+		State:     typesafeState,
+		Model:     "jev-latest",
 		Questions: typesafe.ReasoningQuestions,
 	})
 	if err != nil {
@@ -70,7 +71,8 @@ func (o *OgsUseCase) processOneChild(ctx context.Context, hit *model.WorldCheckH
 
 	// Call TypeSafe for classification questions
 	classificationResp, err := o.typesafeClient.Call(ctx, &typesafe.Request{
-		Context:   typesafeContext,
+		State:     typesafeState,
+		Model:     "jev-latest",
 		Questions: typesafe.ClassificationQuestions,
 	})
 	if err != nil {

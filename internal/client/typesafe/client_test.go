@@ -36,7 +36,8 @@ func TestCall_Success(t *testing.T) {
 
 	client := newTestClient(server, newTestLogger())
 	result, err := client.Call(context.Background(), &Request{
-		Context: map[string]any{"test": "context"},
+		State: map[string]any{"test": "state"},
+		Model: "jev-latest",
 		Questions: map[string]any{"test": "question"},
 	})
 
@@ -79,7 +80,8 @@ func TestCall_RetryOn500(t *testing.T) {
 
 	client := newTestClient(server, newTestLogger())
 	result, err := client.Call(context.Background(), &Request{
-		Context: map[string]any{"test": "context"},
+		State: map[string]any{"test": "state"},
+		Model: "jev-latest",
 		Questions: map[string]any{"test": "question"},
 	})
 
@@ -107,7 +109,8 @@ func TestCall_NoRetryOn400(t *testing.T) {
 
 	client := newTestClient(server, newTestLogger())
 	_, err := client.Call(context.Background(), &Request{
-		Context: map[string]any{"test": "context"},
+		State: map[string]any{"test": "state"},
+		Model: "jev-latest",
 		Questions: map[string]any{"test": "question"},
 	})
 
@@ -142,7 +145,8 @@ func TestCall_RetryOn429(t *testing.T) {
 
 	client := newTestClient(server, newTestLogger())
 	result, err := client.Call(context.Background(), &Request{
-		Context: map[string]any{"test": "context"},
+		State: map[string]any{"test": "state"},
+		Model: "jev-latest",
 		Questions: map[string]any{"test": "question"},
 	})
 
@@ -179,7 +183,8 @@ func TestCall_ContextCancellation(t *testing.T) {
 	cancel() // Cancel immediately
 
 	_, err := client.Call(ctx, &Request{
-		Context: map[string]any{"test": "context"},
+		State: map[string]any{"test": "state"},
+		Model: "jev-latest",
 		Questions: map[string]any{"test": "question"},
 	})
 
@@ -197,7 +202,8 @@ func TestCall_InvalidJSON(t *testing.T) {
 
 	client := newTestClient(server, newTestLogger())
 	_, err := client.Call(context.Background(), &Request{
-		Context: map[string]any{"test": "context"},
+		State: map[string]any{"test": "state"},
+		Model: "jev-latest",
 		Questions: map[string]any{"test": "question"},
 	})
 

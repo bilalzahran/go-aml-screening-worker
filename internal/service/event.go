@@ -23,7 +23,7 @@ func NewEventService(repo repository.EventRepository, logger *slog.Logger) *Even
 }
 
 func (s *EventService) Process(ctx context.Context, event *model.Event) error {
-	if event.ID.IsZero() {
+	if event.ID == "" {
 		return fmt.Errorf("event ID is required")
 	}
 

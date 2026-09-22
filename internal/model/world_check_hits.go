@@ -21,9 +21,9 @@ func MapToWorldCheckHits(data map[string]any) (*WorldCheckHits, error) {
 type WorldCheckHits struct {
 	RiskLevel                   interface{}        `json:"risk_level"`
 	ActionTypes                 []interface{}      `json:"action_types"`
-	ComparisonData              ComparisonData     `json:"comparison_data"`
+	ComparisonData              []ComparisonData   `json:"comparison_data"`
 	KeyData                     KeyData            `json:"key_data"`
-	Keywords                    Keyword            `json:"keywords"`
+	Keywords                    []Keyword          `json:"keywords"`
 	LastUpdated                 time.Time          `json:"last_updated"`
 	PepStatus                   string             `json:"pep_status"`
 	PrimaryName                 string             `json:"primary_name"`
@@ -33,7 +33,7 @@ type WorldCheckHits struct {
 	ReviewComment               interface{}        `json:"review_comment"`
 	ReviewRequiredDate          interface{}        `json:"review_required_date"`
 	UpdateCategory              string             `json:"update_category"`
-	Aliases                     Alias              `json:"aliases"`
+	Aliases                     []Alias            `json:"aliases"`
 	ReferenceID                 string             `json:"reference_id"`
 	ReviewRequired              bool               `json:"review_required"`
 	RoleDetails                 []interface{}      `json:"role_details"`
@@ -62,7 +62,7 @@ type KeyData struct {
 	IdentityDocuments []interface{}  `json:"identity_documents"`
 	LocationDetails   LocationDetail `json:"location_details"`
 	PreviousRoles     []interface{}  `json:"previous_roles"`
-	Sources           Source         `json:"sources"`
+	Sources           []Source       `json:"sources"`
 }
 
 type LocationDetail struct {

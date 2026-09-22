@@ -2,13 +2,11 @@ package model
 
 import (
 	"time"
-
-	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 type Event struct {
 	Type             string           `json:"event_type" bson:"event_type"`
-	ID               bson.ObjectID    `json:"id" bson:"_id"`
+	ID               string           `json:"id" bson:"_id"`
 	Subject          OgsEventSubject  `json:"subject" bson:"subject"`
 	TenantID         *string          `json:"tenant_id" bson:"tenant_id"`
 	CaseID           string           `json:"case_id" bson:"case_id"`

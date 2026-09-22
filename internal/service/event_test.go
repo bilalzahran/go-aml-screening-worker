@@ -7,10 +7,10 @@ import (
 	"log/slog"
 	"testing"
 
+	"github.com/google/uuid"
+
 	"cdaq-event-worker/internal/model"
 	"cdaq-event-worker/internal/service"
-
-	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 type mockEventRepository struct {
@@ -36,7 +36,7 @@ func TestProcess_ValidEvent(t *testing.T) {
 	svc := newTestService(repo)
 
 	event := &model.Event{
-		ID:   bson.NewObjectID(),
+		ID:   uuid.New().String(),
 		Type: "user.created",
 	}
 
@@ -77,7 +77,7 @@ func TestProcess_EmptyType(t *testing.T) {
 	svc := newTestService(repo)
 
 	event := &model.Event{
-		ID: bson.NewObjectID(),
+		ID: uuid.New().String(),
 	}
 
 	err := svc.Process(context.Background(), event)
@@ -100,7 +100,7 @@ func TestProcess_RepoError(t *testing.T) {
 	svc := newTestService(repo)
 
 	event := &model.Event{
-		ID:   bson.NewObjectID(),
+		ID:   uuid.New().String(),
 		Type: "user.created",
 	}
 

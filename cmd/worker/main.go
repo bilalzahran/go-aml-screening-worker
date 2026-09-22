@@ -57,6 +57,11 @@ func main() {
 	screeningWcResultRepository := mongorepo.NewScreeningWcResultRepository(mongoClient, cfg.MongoDB.Database, cfg.MongoDB.ScreeningWcResultCollection, logger)
 	screeningWcResultService := service.NewScreeningWcResultService(screeningWcResultRepository, logger)
 
+	logger.Info("typesafe config loaded",
+		"api_key_length", len(cfg.AIModel.TypesafeAPIKey),
+		"api_key_set", cfg.AIModel.TypesafeAPIKey != "",
+		"base_url", cfg.AIModel.BaseURL,
+	)
 	typesafeClient := typesafe.NewClientWithOptions(cfg.AIModel.TypesafeAPIKey, logger, typesafe.WithBaseURL(cfg.AIModel.BaseURL))
 
 	handlers := map[string]handler.EventTypeHandler{
