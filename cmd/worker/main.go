@@ -12,6 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
+	"cdaq-event-worker/internal/client/typesafe"
 	"cdaq-event-worker/internal/config"
 	"cdaq-event-worker/internal/handler"
 	mongorepo "cdaq-event-worker/internal/repository/mongo"
@@ -56,8 +57,10 @@ func main() {
 	screeningWcResultRepository := mongorepo.NewScreeningWcResultRepository(mongoClient, cfg.MongoDB.Database, cfg.MongoDB.ScreeningWcResultCollection, logger)
 	screeningWcResultService := service.NewScreeningWcResultService(screeningWcResultRepository, logger)
 
+	typesafeClient := typesafe.NewClientWithOptions(cfg.AIModel.TypesafeAPIKey, logger, typesafe.WithBaseURL(cfg.AIModel.BaseURL))
+
 	handlers := map[string]handler.EventTypeHandler{
-		"wc.ogs": usecase.NewOgsUseCase(logger, jobService, screeningWcResultService),
+		"wc.ogs": usecase.NewOgsUseCase(logger, jobService, screeningWcResultService, typesafeClient),
 	}
 	eventHandler := handler.NewEventHandler(handlers, eventService, logger)
 	consumer := rabbitmq.NewConsumer(cfg.RabbitMQ, eventHandler, logger)

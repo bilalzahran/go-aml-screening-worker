@@ -25,10 +25,24 @@ type TestCase struct {
 type CaseData struct {
 	Summary struct {
 		CaseRecord struct {
-			CaseID string `json:"case_id"`
+			CaseID       string `json:"case_id"`
+			Name         string `json:"name"`
+			DateOfBirth  string `json:"date_of_birth"`
+			Citizenship  string `json:"citizenship"`
+			Gender       string `json:"gender"`
+			EntityType   string `json:"entity_type"`
 		} `json:"case_record"`
 		WorldCheck []map[string]any `json:"world_check"`
 	} `json:"summary"`
+}
+
+// Subject contains identifying information about the screened subject.
+type Subject struct {
+	Name       string `json:"name"`
+	DOB        string `json:"dob"`
+	Nationality string `json:"nationality"`
+	Gender     string `json:"gender"`
+	EntityType string `json:"entity_type"`
 }
 
 // OGSMessage is the RabbitMQ message conforming to ogs-schema.json.
@@ -37,6 +51,7 @@ type OGSMessage struct {
 	EventType        string            `json:"event_type"`
 	TenantID         *string           `json:"tenant_id"`
 	CaseID           string            `json:"case_id"`
+	Subject          Subject           `json:"subject"`
 	WorldCheck       []map[string]any  `json:"world_check"`
 	AIRecommendation []any             `json:"ai_recommendation"`
 }
@@ -103,10 +118,17 @@ func main() {
 		eventID := uuid.New().String()
 
 		msg := OGSMessage{
-			ID:               eventID,
-			EventType:        "wc.ogs",
-			TenantID:         tenantID,
-			CaseID:           caseData.Summary.CaseRecord.CaseID,
+			ID:        eventID,
+			EventType: "wc.ogs",
+			TenantID:  tenantID,
+			CaseID:    caseData.Summary.CaseRecord.CaseID,
+			Subject: Subject{
+				Name:        caseData.Summary.CaseRecord.Name,
+				DOB:         caseData.Summary.CaseRecord.DateOfBirth,
+				Nationality: caseData.Summary.CaseRecord.Citizenship,
+				Gender:      caseData.Summary.CaseRecord.Gender,
+				EntityType:  caseData.Summary.CaseRecord.EntityType,
+			},
 			WorldCheck:       caseData.Summary.WorldCheck,
 			AIRecommendation: []any{},
 		}

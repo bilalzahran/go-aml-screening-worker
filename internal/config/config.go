@@ -12,6 +12,12 @@ type Config struct {
 	LogLevel string         `mapstructure:"log_level"`
 	RabbitMQ RabbitMQConfig `mapstructure:"rabbitmq"`
 	MongoDB  MongoDBConfig  `mapstructure:"mongodb"`
+	AIModel  AIModelConfig  `mapstructure:"aimodel"`
+}
+
+type AIModelConfig struct {
+	TypesafeAPIKey string `mapstructure:"typesafe_api_key"`
+	BaseURL        string `mapstructure:"base_url"`
 }
 
 type RabbitMQConfig struct {
@@ -46,6 +52,7 @@ func Load() (*Config, error) {
 	v.SetDefault("mongodb.job_collection", "jobs")
 	v.SetDefault("mongodb.child_job_collection", "child_jobs")
 	v.SetDefault("mongodb.screening_wc_result_collection", "screening_wc_results")
+	v.SetDefault("aimodel.base_url", "https://api.typesafe.ai")
 
 	v.SetConfigName("config")
 	v.SetConfigType("yaml")

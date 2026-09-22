@@ -35,7 +35,7 @@ type ScreeningWcResult struct {
 	*BaseEntity
 	RiskLevel          ResolutionRiskEnum       `bson:"riskLevel" json:"riskLevel"`
 	Category           ScreeningResultCategory  `bson:"category" json:"category"`
-	AIRecommendation   map[string]interface{}   `bson:"aiRecommendation" json:"aiRecommendation"`
+	AIRecommendation   *AIRecommendation        `bson:"aiRecommendation" json:"aiRecommendation"`
 	Resolve            ScreeningResolveEnum     `bson:"resolve" json:"resolve"`
 	ResolutionStatus   string                   `bson:"resolutionStatus" json:"resolutionStatus"`
 	ResolutionReason   string                   `bson:"resolutionReason" json:"resolutionReason"`

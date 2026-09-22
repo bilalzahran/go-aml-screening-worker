@@ -12,6 +12,48 @@
         "case_id": {
             "type": "string"
         },
+        "subject": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "dob": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "format": "date"
+                },
+                "nationality": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "gender": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "entity_type": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "nationality",
+                "gender",
+                "entity_type"
+            ]
+        },
         "world_check": {
             "type": "array",
             "items": {
@@ -600,6 +642,7 @@
     "required": [
         "tenant_id",
         "case_id",
+        "subject",
         "world_check",
         "ai_recommendation"
     ]

@@ -5,7 +5,7 @@ GOFLAGS=-v
 VERSION?=$(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 LDFLAGS=-ldflags "-X main.Version=$(VERSION)"
 
-.PHONY: all build clean test lint run fmt deps docker-up docker-down help
+.PHONY: all build clean test lint run fmt deps docker-up docker-down setup-env help
 
 all: clean lint test build
 
@@ -37,14 +37,30 @@ fmt:
 	$(GO) fmt ./...
 	$(GO) vet ./...
 
-## run: Build and run locally
-run: build
-	./bin/$(BINARY_NAME)
+## setup-env: Create .env from .env.example (copy only if .env doesn't exist)
+setup-env:
+	@if [ ! -f .env ]; then \
+		echo "Creating .env from .env.example..."; \
+		cp .env.example .env; \
+		echo "⚠️  .env created. Please edit it with your actual API keys and secrets."; \
+	else \
+		echo ".env already exists, skipping."; \
+	fi
+
+## run: Build and run locally with environment variables
+run: build setup-env
+	@echo "Loading environment variables from .env..."
+	@set -a && . ./.env && set +a && ./bin/$(BINARY_NAME)
 
 ## deps: Download and tidy dependencies
 deps:
 	$(GO) mod download
 	$(GO) mod tidy
+
+## env: Export environment variables from .env
+env: setup-env
+	@echo "Exporting environment variables from .env..."
+	@set -a && . ./.env && set +a && echo "✓ Environment variables loaded"
 
 ## docker-up: Start local dev infrastructure
 docker-up:
