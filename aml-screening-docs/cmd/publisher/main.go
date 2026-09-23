@@ -63,7 +63,12 @@ func main() {
 	queue := flag.String("queue", "aml.screening.ogs", "queue name")
 	routingKey := flag.String("routing-key", "screening.ogs", "routing key")
 	tenantID := flag.String("tenant-id", "test-tenant", "tenant ID for published messages")
+	maxHits := flag.Int("hits", 0, "number of screening hits to send per message (0 = all)")
 	flag.Parse()
+
+	if *maxHits < 0 {
+		log.Fatalf("-hits must be >= 0, got %d", *maxHits)
+	}
 
 	raw, err := os.ReadFile(*filePath)
 	if err != nil {
@@ -115,6 +120,11 @@ func main() {
 			continue
 		}
 
+		worldCheck := caseData.Summary.WorldCheck
+		if *maxHits > 0 && len(worldCheck) > *maxHits {
+			worldCheck = worldCheck[:*maxHits]
+		}
+
 		eventID := uuid.New().String()
 
 		msg := OGSMessage{
@@ -129,7 +139,7 @@ func main() {
 				Gender:      caseData.Summary.CaseRecord.Gender,
 				EntityType:  caseData.Summary.CaseRecord.EntityType,
 			},
-			WorldCheck:       caseData.Summary.WorldCheck,
+			WorldCheck:       worldCheck,
 			AIRecommendation: []any{},
 		}
 
@@ -161,9 +171,9 @@ func main() {
 			continue
 		}
 
-		hitCount := len(caseData.Summary.WorldCheck)
-		log.Printf("[%d] OK   %s  case=%s  hits=%d  expected=%s",
-			i+1, tc.TestID, caseData.Summary.CaseRecord.CaseID, hitCount, tc.ExpectedVerdict)
+		log.Printf("[%d] OK   %s  case=%s  hits=%d/%d  expected=%s",
+			i+1, tc.TestID, caseData.Summary.CaseRecord.CaseID,
+			len(worldCheck), len(caseData.Summary.WorldCheck), tc.ExpectedVerdict)
 		published++
 	}
 

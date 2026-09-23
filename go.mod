@@ -3,7 +3,9 @@ module cdaq-event-worker
 go 1.25.0
 
 require (
+	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/go-viper/mapstructure/v2 v2.4.0
+	github.com/google/uuid v1.6.0
 	github.com/rabbitmq/amqp091-go v1.14.0
 	github.com/spf13/viper v1.21.0
 	go.mongodb.org/mongo-driver/v2 v2.9.1
@@ -11,9 +13,7 @@ require (
 )
 
 require (
-	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.19.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/sagikazarmark/locafero v0.11.0 // indirect

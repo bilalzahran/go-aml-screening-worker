@@ -14,7 +14,7 @@ type BaseEntity struct {
 	UpdatedAt      time.Time              `bson:"updatedAt" json:"updatedAt"`
 	DeletedAt      *time.Time             `bson:"deletedAt,omitempty" json:"deletedAt,omitempty"`
 	Attributes     map[string]interface{} `bson:"attributes" json:"attributes"`
-	Version        int64                  `bson:"__v" json:"__v,omitempty"`
+	Version        int64                  `bson:"version" json:"version,omitempty"`
 	CreatedBy      string                 `bson:"createdBy" json:"createdBy"`
 	LastModifiedBy string                 `bson:"lastModifiedBy" json:"lastModifiedBy"`
 }

@@ -52,40 +52,58 @@ func (o *OgsUseCase) Handle(ctx context.Context, event *model.Event) error {
 }
 
 func (o *OgsUseCase) processOneChild(ctx context.Context, hit *model.WorldCheckHits, subject *model.OgsEventSubject) (*model.ScreeningWcResult, error) {
+	// Debug: log input data
+	o.logger.Debug("processing child hit",
+		"result_id", hit.ResultID,
+		"reference_id", hit.ReferenceID,
+		"matched_term", hit.MatchedTerm,
+		"primary_name", hit.PrimaryName,
+		"provider_type", hit.ProviderType,
+	)
+
 	// Build ScreeningWcResult from WorldCheckHits
 	screeningWcResult := model.NewScreeningWcResultFromWorldCheckHits(hit)
 
-	// Build state for TypeSafe API
-	typesafeState := buildTypesafeContext(hit, subject)
+	// Debug: log output data
+	o.logger.Debug("converted to screening wc result",
+		"result_id", screeningWcResult.ResultID,
+		"reference_id", screeningWcResult.ReferenceID,
+		"matched_term", screeningWcResult.MatchedTerm,
+		"primary_name", screeningWcResult.PrimaryName,
+		"source", screeningWcResult.Source,
+	)
 
-	// Call TypeSafe for reasoning questions
-	reasoningResp, err := o.typesafeClient.Call(ctx, &typesafe.Request{
-		State:     typesafeState,
-		Model:     "jev-latest",
-		Questions: typesafe.ReasoningQuestions,
-	})
-	if err != nil {
-		o.logger.Error("typesafe reasoning call failed", "error", err.Error(), "result_id", screeningWcResult.ResultID)
-		return nil, err
-	}
+	// // Build state for TypeSafe API
+	// typesafeState := buildTypesafeContext(hit, subject)
 
-	// Call TypeSafe for classification questions
-	classificationResp, err := o.typesafeClient.Call(ctx, &typesafe.Request{
-		State:     typesafeState,
-		Model:     "jev-latest",
-		Questions: typesafe.ClassificationQuestions,
-	})
-	if err != nil {
-		o.logger.Error("typesafe classification call failed", "error", err.Error(), "result_id", screeningWcResult.ResultID)
-		return nil, err
-	}
+	// // Call TypeSafe for reasoning questions
+	// reasoningResp, err := o.typesafeClient.Call(ctx, &typesafe.Request{
+	// 	State:     typesafeState,
+	// 	Model:     "jev-latest",
+	// 	Questions: typesafe.ReasoningQuestions,
+	// })
+	// if err != nil {
+	// 	o.logger.Error("typesafe reasoning call failed", "error", err.Error(), "result_id", screeningWcResult.ResultID)
+	// 	return nil, err
+	// }
 
-	// Build AIRecommendation from responses
-	aiRecommendation := &model.AIRecommendation{
-		Reasoning:      mapAnswers(reasoningResp),
-		Classification: mapAnswers(classificationResp),
-	}
-	screeningWcResult.AIRecommendation = aiRecommendation
+	// // Call TypeSafe for classification questions
+	// classificationResp, err := o.typesafeClient.Call(ctx, &typesafe.Request{
+	// 	State:     typesafeState,
+	// 	Model:     "jev-latest",
+	// 	Questions: typesafe.ClassificationQuestions,
+	// })
+	// if err != nil {
+	// 	o.logger.Error("typesafe classification call failed", "error", err.Error(), "result_id", screeningWcResult.ResultID)
+	// 	return nil, err
+	// }
+
+	// // Build AIRecommendation from responses
+	// aiRecommendation := &model.AIRecommendation{
+	// 	Reasoning:      mapAnswers(reasoningResp),
+	// 	Classification: mapAnswers(classificationResp),
+	// }
+	// screeningWcResult.AIRecommendation = aiRecommendation
 
 	// Save result with AI recommendation
 	if err := o.screeningWcResultService.Save(ctx, screeningWcResult); err != nil {
