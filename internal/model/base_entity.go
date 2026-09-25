@@ -3,6 +3,7 @@ package model
 import (
 	"time"
 
+	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
@@ -17,6 +18,14 @@ type BaseEntity struct {
 	Version        int64                  `bson:"version" json:"version,omitempty"`
 	CreatedBy      string                 `bson:"createdBy" json:"createdBy"`
 	LastModifiedBy string                 `bson:"lastModifiedBy" json:"lastModifiedBy"`
+}
+
+func createBaseEntity() *BaseEntity {
+	return &BaseEntity{
+		PubID:     uuid.New().String(),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
 }
 
 // DBRef represents a MongoDB database reference

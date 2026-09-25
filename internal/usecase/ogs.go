@@ -12,6 +12,8 @@ import (
 
 const MAX_CONCURRENCY = 50
 
+const SKIP_CLASSIFICATION = true
+
 type OgsUseCase struct {
 	logger                   *slog.Logger
 	jobService               *service.JobService
@@ -73,37 +75,39 @@ func (o *OgsUseCase) processOneChild(ctx context.Context, hit *model.WorldCheckH
 		"source", screeningWcResult.Source,
 	)
 
-	// // Build state for TypeSafe API
-	// typesafeState := buildTypesafeContext(hit, subject)
+	if !SKIP_CLASSIFICATION {
+		// Build state for classification
+		typesafeState := buildTypesafeContext(hit, subject)
 
-	// // Call TypeSafe for reasoning questions
-	// reasoningResp, err := o.typesafeClient.Call(ctx, &typesafe.Request{
-	// 	State:     typesafeState,
-	// 	Model:     "jev-latest",
-	// 	Questions: typesafe.ReasoningQuestions,
-	// })
-	// if err != nil {
-	// 	o.logger.Error("typesafe reasoning call failed", "error", err.Error(), "result_id", screeningWcResult.ResultID)
-	// 	return nil, err
-	// }
+		// Call TypeSafe for reasoning questions
+		reasoningResp, err := o.typesafeClient.Call(ctx, &typesafe.Request{
+			State:     typesafeState,
+			Model:     "jev-latest",
+			Questions: typesafe.ReasoningQuestions,
+		})
+		if err != nil {
+			o.logger.Error("typesafe reasoning call failed", "error", err.Error(), "result_id", screeningWcResult.ResultID)
+			return nil, err
+		}
 
-	// // Call TypeSafe for classification questions
-	// classificationResp, err := o.typesafeClient.Call(ctx, &typesafe.Request{
-	// 	State:     typesafeState,
-	// 	Model:     "jev-latest",
-	// 	Questions: typesafe.ClassificationQuestions,
-	// })
-	// if err != nil {
-	// 	o.logger.Error("typesafe classification call failed", "error", err.Error(), "result_id", screeningWcResult.ResultID)
-	// 	return nil, err
-	// }
+		// Call TypeSafe for classification questions
+		classificationResp, err := o.typesafeClient.Call(ctx, &typesafe.Request{
+			State:     typesafeState,
+			Model:     "jev-latest",
+			Questions: typesafe.ClassificationQuestions,
+		})
+		if err != nil {
+			o.logger.Error("typesafe classification call failed", "error", err.Error(), "result_id", screeningWcResult.ResultID)
+			return nil, err
+		}
 
-	// // Build AIRecommendation from responses
-	// aiRecommendation := &model.AIRecommendation{
-	// 	Reasoning:      mapAnswers(reasoningResp),
-	// 	Classification: mapAnswers(classificationResp),
-	// }
-	// screeningWcResult.AIRecommendation = aiRecommendation
+		// Build AIRecommendation from responses
+		aiRecommendation := &model.AIRecommendation{
+			Reasoning:      mapAnswers(reasoningResp),
+			Classification: mapAnswers(classificationResp),
+		}
+		screeningWcResult.AIRecommendation = aiRecommendation
+	}
 
 	// Save result with AI recommendation
 	if err := o.screeningWcResultService.Save(ctx, screeningWcResult); err != nil {

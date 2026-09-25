@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"strings"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 // ResolutionRiskEnum represents the risk level enum
@@ -81,32 +79,28 @@ func (s *ScreeningWcResult) GetRiskLevel() ResolutionRiskEnum {
 // NewScreeningWcResultFromWorldCheckHits converts WorldCheckHits to ScreeningWcResult
 func NewScreeningWcResultFromWorldCheckHits(w *WorldCheckHits) *ScreeningWcResult {
 	result := &ScreeningWcResult{
-		BaseEntity: &BaseEntity{
-			PubID:     uuid.New().String(),
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
-		},
-		ResultID:              w.ResultID,
-		ReferenceID:           w.ReferenceID,
-		MatchedTerm:           w.MatchedTerm,
-		PrimaryName:           w.PrimaryName,
-		ResolutionRemark:      w.ResolutionRemark,
-		ReviewComment:         interfaceToString(w.ReviewComment),
-		Source:                w.ProviderType,
-		LastUpdated:           convertToTimePtr(w.LastUpdated),
-		Categories:            w.Categories,
-		ReviewRequired:        &w.ReviewRequired,
-		ActionTypes:           interfaceSliceToStringSlice(w.ActionTypes),
-		ResolutionStatus:      interfaceToString(w.ResolutionStatus),
-		ResolutionReason:      interfaceToString(w.ResolutionReason),
-		ComparisonData:        structSliceToMapSlice(w.ComparisonData),
-		Aliases:               structSliceToMapSlice(w.Aliases),
-		Keywords:              structSliceToMapSlice(w.Keywords),
-		Sources:               structSliceToMapSlice(w.KeyData.Sources),
-		RoleDetails:           interfaceSliceToMapSlice(w.RoleDetails),
-		ConnectionsAndRels:    interfaceSliceToMapSlice(w.ConnectionsAndRelationships),
-		FurtherInfo:           structToMap(w.FurtherInformation),
-		KeyData:               structToMap(w.KeyData),
+		BaseEntity:         createBaseEntity(),
+		ResultID:           w.ResultID,
+		ReferenceID:        w.ReferenceID,
+		MatchedTerm:        w.MatchedTerm,
+		PrimaryName:        w.PrimaryName,
+		ResolutionRemark:   w.ResolutionRemark,
+		ReviewComment:      interfaceToString(w.ReviewComment),
+		Source:             w.ProviderType,
+		LastUpdated:        convertToTimePtr(w.LastUpdated),
+		Categories:         w.Categories,
+		ReviewRequired:     &w.ReviewRequired,
+		ActionTypes:        interfaceSliceToStringSlice(w.ActionTypes),
+		ResolutionStatus:   interfaceToString(w.ResolutionStatus),
+		ResolutionReason:   interfaceToString(w.ResolutionReason),
+		ComparisonData:     structSliceToMapSlice(w.ComparisonData),
+		Aliases:            structSliceToMapSlice(w.Aliases),
+		Keywords:           structSliceToMapSlice(w.Keywords),
+		Sources:            structSliceToMapSlice(w.KeyData.Sources),
+		RoleDetails:        interfaceSliceToMapSlice(w.RoleDetails),
+		ConnectionsAndRels: interfaceSliceToMapSlice(w.ConnectionsAndRelationships),
+		FurtherInfo:        structToMap(w.FurtherInformation),
+		KeyData:            structToMap(w.KeyData),
 	}
 
 	// Handle RiskLevel conversion from interface{} to ResolutionRiskEnum

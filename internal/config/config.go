@@ -11,8 +11,8 @@ import (
 type Config struct {
 	LogLevel string         `mapstructure:"log_level"`
 	RabbitMQ RabbitMQConfig `mapstructure:"rabbitmq"`
-	MongoDB  MongoDBConfig  `mapstructure:"mongodb"`
 	AIModel  AIModelConfig  `mapstructure:"aimodel"`
+	MongoDB  MongoDBConfig  `mapstructure:"mongodb"`
 }
 
 type AIModelConfig struct {
@@ -29,11 +29,12 @@ type RabbitMQConfig struct {
 }
 
 type MongoDBConfig struct {
-	URI                        string `mapstructure:"uri"`
-	Database                   string `mapstructure:"database"`
-	Collection                 string `mapstructure:"collection"`
-	JobCollection              string `mapstructure:"job_collection"`
-	ChildJobCollection         string `mapstructure:"child_job_collection"`
+	URI                         string `mapstructure:"uri"`
+	EventLogDatabase            string `mapstructure:"event_log_database"`
+	AdminDatabase               string `mapstructure:"admin_database"`
+	Collection                  string `mapstructure:"collection"`
+	JobCollection               string `mapstructure:"job_collection"`
+	ChildJobCollection          string `mapstructure:"child_job_collection"`
 	ScreeningWcResultCollection string `mapstructure:"screening_wc_result_collection"`
 }
 

@@ -9,7 +9,8 @@ rabbitmq:
 
 mongodb:
   uri: "mongodb://localhost:27017"
-  database: "cdaq"
+  admin_log_database: "cdaq"
+  admin_database: "kiss_admin"
   collection: "events"
   job_collection: "jobs"
   child_job_collection: "child_jobs"

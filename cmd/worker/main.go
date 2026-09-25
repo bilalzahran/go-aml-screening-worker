@@ -47,14 +47,14 @@ func main() {
 	logger.Info("connected to MongoDB", "uri", cfg.MongoDB.URI)
 
 	// Wire dependencies
-	eventRepo := mongorepo.NewEventRepository(mongoClient, cfg.MongoDB.Database, cfg.MongoDB.Collection, logger)
+	eventRepo := mongorepo.NewEventRepository(mongoClient, cfg.MongoDB.EventLogDatabase, cfg.MongoDB.Collection, logger)
 	eventService := service.NewEventService(eventRepo, logger)
 
-	jobRepository := mongorepo.NewJobRepository(mongoClient, cfg.MongoDB.Database, cfg.MongoDB.JobCollection, logger)
-	childJobRepository := mongorepo.NewChildJobRepository(mongoClient, cfg.MongoDB.Database, cfg.MongoDB.ChildJobCollection, logger)
+	jobRepository := mongorepo.NewJobRepository(mongoClient, cfg.MongoDB.EventLogDatabase, cfg.MongoDB.JobCollection, logger)
+	childJobRepository := mongorepo.NewChildJobRepository(mongoClient, cfg.MongoDB.EventLogDatabase, cfg.MongoDB.ChildJobCollection, logger)
 	jobService := service.NewJobService(jobRepository, childJobRepository, logger)
 
-	screeningWcResultRepository := mongorepo.NewScreeningWcResultRepository(mongoClient, cfg.MongoDB.Database, cfg.MongoDB.ScreeningWcResultCollection, logger)
+	screeningWcResultRepository := mongorepo.NewScreeningWcResultRepository(mongoClient, cfg.MongoDB.AdminDatabase, cfg.MongoDB.ScreeningWcResultCollection, logger)
 	screeningWcResultService := service.NewScreeningWcResultService(screeningWcResultRepository, logger)
 
 	logger.Info("typesafe config loaded",
