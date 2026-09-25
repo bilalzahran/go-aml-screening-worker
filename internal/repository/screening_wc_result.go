@@ -7,5 +7,5 @@ import (
 )
 
 type ScreeningWcResultRepository interface {
-	Save(ctx context.Context, result *model.ScreeningWcResult) error
+	Save(ctx context.Context, tenantId string, result *model.ScreeningWcResult) error
 }

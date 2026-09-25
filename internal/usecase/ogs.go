@@ -42,7 +42,7 @@ func (o *OgsUseCase) Handle(ctx context.Context, event *model.Event) error {
 		}
 
 		g.Go(func() error {
-			res, _ := o.processOneChild(ctx, childEvent, &event.Subject)
+			res, _ := o.processOneChild(ctx, *event.TenantID, childEvent, &event.Subject)
 			results[i] = *res
 			return nil
 		})
@@ -53,7 +53,7 @@ func (o *OgsUseCase) Handle(ctx context.Context, event *model.Event) error {
 	return nil
 }
 
-func (o *OgsUseCase) processOneChild(ctx context.Context, hit *model.WorldCheckHits, subject *model.OgsEventSubject) (*model.ScreeningWcResult, error) {
+func (o *OgsUseCase) processOneChild(ctx context.Context, tenantId string, hit *model.WorldCheckHits, subject *model.OgsEventSubject) (*model.ScreeningWcResult, error) {
 	// Debug: log input data
 	o.logger.Debug("processing child hit",
 		"result_id", hit.ResultID,
@@ -110,7 +110,7 @@ func (o *OgsUseCase) processOneChild(ctx context.Context, hit *model.WorldCheckH
 	}
 
 	// Save result with AI recommendation
-	if err := o.screeningWcResultService.Save(ctx, screeningWcResult); err != nil {
+	if err := o.screeningWcResultService.Save(ctx, screeningWcResult, tenantId); err != nil {
 		return nil, err
 	}
 

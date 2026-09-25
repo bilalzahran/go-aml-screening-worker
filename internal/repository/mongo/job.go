@@ -19,9 +19,9 @@ type JobRepository struct {
 	logger     *slog.Logger
 }
 
-func NewJobRepository(client *mongo.Client, database, collection string, logger *slog.Logger) *JobRepository {
+func NewJobRepository(database *mongo.Database, logger *slog.Logger) *JobRepository {
 	return &JobRepository{
-		collection: client.Database(database).Collection(collection),
+		collection: database.Collection("jobs"),
 		logger:     logger.With("component", "mongo_job_repository"),
 	}
 }

@@ -20,9 +20,9 @@ type EventRepository struct {
 	logger     *slog.Logger
 }
 
-func NewEventRepository(client *mongo.Client, database, collection string, logger *slog.Logger) *EventRepository {
+func NewEventRepository(database *mongo.Database, logger *slog.Logger) *EventRepository {
 	return &EventRepository{
-		collection: client.Database(database).Collection(collection),
+		collection: database.Collection("events"),
 		logger:     logger.With("component", "mongo_repository"),
 	}
 }

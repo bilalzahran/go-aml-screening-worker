@@ -24,7 +24,7 @@ func NewScreeningWcResultService(repo repository.ScreeningWcResultRepository, lo
 	}
 }
 
-func (s *ScreeningWcResultService) Save(ctx context.Context, result *model.ScreeningWcResult) error {
+func (s *ScreeningWcResultService) Save(ctx context.Context, result *model.ScreeningWcResult, tenantId string) error {
 	// Generate new ID if empty
 	if result.BaseEntity.ID.IsZero() {
 		result.BaseEntity.ID = bson.NewObjectID()
@@ -35,7 +35,7 @@ func (s *ScreeningWcResultService) Save(ctx context.Context, result *model.Scree
 	result.BaseEntity.CreatedAt = now
 	result.BaseEntity.UpdatedAt = now
 
-	if err := s.repo.Save(ctx, result); err != nil {
+	if err := s.repo.Save(ctx, tenantId, result); err != nil {
 		return fmt.Errorf("saving screening_wc_result: %w", err)
 	}
 

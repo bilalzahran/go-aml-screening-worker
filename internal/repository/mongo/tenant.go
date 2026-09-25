@@ -18,9 +18,9 @@ type TenantRepository struct {
 	logger     slog.Logger
 }
 
-func NewTenantRepository(client *mongo.Client, database, collection string, logger *slog.Logger) *TenantRepository {
+func NewTenantRepository(database *mongo.Database, logger *slog.Logger) *TenantRepository {
 	return &TenantRepository{
-		collection: client.Database(database).Collection(collection),
+		collection: database.Collection("tenants"),
 		logger:     *logger,
 	}
 }
@@ -34,7 +34,7 @@ func (t *TenantRepository) FindByPubId(ctx context.Context, pubId string) (*mode
 	err := t.collection.FindOne(ctx, filter).Decode(&tenant)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
-			return nil, ErrTenantNotFound
+			return nil, repository.ErrTenantNotFound
 		}
 
 		return nil, err

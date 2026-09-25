@@ -32,9 +32,6 @@ type MongoDBConfig struct {
 	URI                         string `mapstructure:"uri"`
 	EventLogDatabase            string `mapstructure:"event_log_database"`
 	AdminDatabase               string `mapstructure:"admin_database"`
-	Collection                  string `mapstructure:"collection"`
-	JobCollection               string `mapstructure:"job_collection"`
-	ChildJobCollection          string `mapstructure:"child_job_collection"`
 	ScreeningWcResultCollection string `mapstructure:"screening_wc_result_collection"`
 }
 
@@ -49,9 +46,6 @@ func Load() (*Config, error) {
 	v.SetDefault("rabbitmq.prefetch_count", 10)
 	v.SetDefault("mongodb.uri", "mongodb://localhost:27017")
 	v.SetDefault("mongodb.database", "cdaq-event")
-	v.SetDefault("mongodb.collection", "events")
-	v.SetDefault("mongodb.job_collection", "jobs")
-	v.SetDefault("mongodb.child_job_collection", "child_jobs")
 	v.SetDefault("mongodb.screening_wc_result_collection", "screening_wc_results")
 	v.SetDefault("aimodel.base_url", "https://api.typesafe.ai")
 
